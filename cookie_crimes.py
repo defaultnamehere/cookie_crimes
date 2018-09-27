@@ -99,9 +99,10 @@ def summon_forbidden_protocol():
                                shell=True,
                                stdout=subprocess.DEVNULL,
                                stderr=subprocess.DEVNULL)
+
     # Hey some people have slow computers, quite possibly because of
     # all the malware you're running on them.
-    time.sleep(2)
+    time.sleep(5)
     return process
 
 def hit_that_secret_json_path_like_its_1997():
@@ -139,10 +140,11 @@ if __name__ == "__main__":
     secret_websocket_debugging_url = hit_that_secret_json_path_like_its_1997()
 
     cookies = gimme_those_cookies(secret_websocket_debugging_url)
+
     # Sleep for a sec so we don't get "Killed" in output.
     time.sleep(1)
 
     cleanup(forbidden_process)
 
 
-    print(cookies)
+    print(json.dumps(cookies,indent=4, separators=(',', ': '), sort_keys=True))
