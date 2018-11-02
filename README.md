@@ -3,6 +3,8 @@
 
 This will print out a user's Chrome cookies. You don't need to have their password or be root to use it. nice nice nice nice nice.
 
+If you are not the kind of person who regularly gets the ability to execute code on other people's computers, you probably don't care about this.
+
 ## Features
 * Prints all Chrome cookies in sweet sweet JSON
 * Works without root or the user's password
@@ -41,4 +43,16 @@ If you want to extract the Chrome cookies for a profile other than the Default p
 ## Cross-platform
 \*I absolutely HAVE NOT tested this on Windows and I have no idea if it will work. Sorry all you Michaelsoft Binbows hackers. If you try it and it breaks (hopefully not live on someone's hacked computer during one of your Operations), make a Github Issue, or if you have the courage, a Pull Request.
 
+## How it works
+
+### Headless Chrome and `user-data-dir`
+Headless (no window is rendered) Chrome is allowed to specify a `user-data-dir`. This directory contains cookies, history, preferences, etc. By creating a new headless Chrome instance, and specifying the `user-data-dir` to be the same as the victim's, your headless Chrome instance will authenticate as the vicitm.
+
+### Remote debugging
+From here, we just use a normal (but extremely forbidden and undocumented) feature of Chrome: the Remote Debugging protocol. This is how Chrome Developer Tools communicate with Chrome. Once your headless Chrome (with remote debugging enabled) instance is running, this code just executes remote debugging commands to print the user's cookies for all websites in plaintext.
+
+You can fully control Chrome at this point, taking any action the user could take.
+
+### closing ceremony
+don't do crimes with this please
 
