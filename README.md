@@ -53,6 +53,9 @@ From here, we just use a normal (but extremely forbidden and undocumented) featu
 
 You can fully control Chrome at this point, taking any action the user could take.
 
+### Metasploit module
+I'm workin' on it! Check back here when it's done.
+
 ### closing ceremony
 don't do crimes with this please
 
