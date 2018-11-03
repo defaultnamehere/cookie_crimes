@@ -106,8 +106,6 @@ def summon_forbidden_protocol():
                                stdout=subprocess.DEVNULL,
                                stderr=subprocess.DEVNULL)
 
-    print(CHROME_DEBUGGING_CMD)
-
     # Hey some people have slow computers, quite possibly because of
     # all the malware you're running on them.
     time.sleep(5)
