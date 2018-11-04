@@ -11,7 +11,8 @@ import requests
 import websocket
 
 # Edit this if you want to use a profile other than the default Chrome profile. Usually the profiles are called "Profile 1" etc. To list Chrome profiles, look in the Chrome User Data Directory for your OS.
-# If you don't know what this is, don't change it.
+#smartctl -l scterc,50,50 /dev If you don't know what this is, don't change it.
+
 PROFILE_NAME = "Default"
 
 REMOTE_DEBUGGING_PORT = 9222
@@ -21,7 +22,7 @@ GET_ALL_COOKIES_REQUEST = json.dumps({"id": 1, "method": "Network.getAllCookies"
 if sys.platform.startswith("linux"):
     CHROME_CMD = "google-chrome"
 
-    LINUX_CHROME_CMDS = ["/usr/bin/google-chrome-stable", "/usr/bin/google-chrome-stable", "/usr/bin/google-chrome"]
+    LINUX_CHROME_CMDS = ["/usr/bin/google-chrome-stable", "/usr/bin/google-chrome-beta", "/usr/bin/google-chrome"]
     for cmd in LINUX_CHROME_CMDS:
         if os.path.isfile(cmd):
             CHROME_CMD = cmd
