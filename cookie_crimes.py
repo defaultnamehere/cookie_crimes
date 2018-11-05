@@ -11,7 +11,7 @@ import requests
 import websocket
 
 # Edit this if you want to use a profile other than the default Chrome profile. Usually the profiles are called "Profile 1" etc. To list Chrome profiles, look in the Chrome User Data Directory for your OS.
-#smartctl -l scterc,50,50 /dev If you don't know what this is, don't change it.
+# If you don't know what this is, don't change it.
 
 PROFILE_NAME = "Default"
 
