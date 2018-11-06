@@ -127,7 +127,15 @@ def cleanup(chrome_process):
     # I SURE HOPE there's no race condition, causing this to kill some other
     # innocent PID, crashing the victim's computer and ruining your operation.
 
-    os.kill(chrome_process.pid + 1, signal.SIGKILL)
+    if sys.platform.startswith("linux") or sys.platform == "darwin":
+        for p in map(int, sorted(subprocess.check_output(["pidof", CHROME_CMD]).split())):
+            if p > chrome_process.pid:
+                pid = p
+                break
+    else:
+        pid = chrome_process.pid + 1
+
+    os.kill(pid, signal.SIGKILL)
 
     # If we copied a Profile's User Data Directory somewhere, clean it up.
     if fake_user_data_dir is not None:
