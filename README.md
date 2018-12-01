@@ -15,6 +15,9 @@ If you are not the kind of person who regularly gets the ability to execute code
 * Compiles to a single binary
 
 
+## Blog post
+Read the full details at https://mango.pdf.zone/stealing-chrome-cookies-without-a-password
+
 ## Installation
 Requires Python3.6+ to run locally, but the binary it compiles to works anywhere.
 ```
