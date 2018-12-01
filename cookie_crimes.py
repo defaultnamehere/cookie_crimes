@@ -46,7 +46,7 @@ if PROFILE_NAME != "Default":
         tmpdir = "/tmp"
         copy = ["cp", "-r"]
 
-    elif sys.platform.startswith == "win":
+    elif sys.platform.startswith("win"):
         tmpdir = "%TEMP%"
         copy = ["xcopy", "/e", "/i", "/h"]
     else:
