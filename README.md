@@ -14,6 +14,12 @@ If you are not the kind of person who regularly gets the ability to execute code
 * Cooks a mean lasagna
 * Compiles to a single binary
 
+## Metasploit module
+
+https://github.com/rapid7/metasploit-framework/blob/9616a9f79de0b22bfd142f12affd74cecbbd4413/documentation/modules/post/multi/gather/chrome_cookies.md
+
+## Blog post
+Read the full details at https://mango.pdf.zone/stealing-chrome-cookies-without-a-password
 
 ## Installation
 Requires Python3.6+ to run locally, but the binary it compiles to works anywhere.
@@ -43,6 +49,8 @@ If you want to extract the Chrome cookies for a profile other than the Default p
 ## Cross-platform
 \*I absolutely HAVE NOT tested this on Windows and I have no idea if it will work. Sorry all you Michaelsoft Binbows hackers. If you try it and it breaks (hopefully not live on someone's hacked computer during one of your Operations), make a Github Issue, or if you have the courage, a Pull Request.
 
+If you want a reliable way to do this on Windows, might I suggest this here [Metasploit module](https://github.com/rapid7/metasploit-framework/blob/9616a9f79de0b22bfd142f12affd74cecbbd4413/documentation/modules/post/multi/gather/chrome_cookies.md).
+
 ## How it works
 
 ### Headless Chrome and `user-data-dir`
@@ -52,9 +60,6 @@ Headless (no window is rendered) Chrome is allowed to specify a `user-data-dir`.
 From here, we just use a normal (but extremely forbidden and undocumented) feature of Chrome: the Remote Debugging protocol. This is how Chrome Developer Tools communicate with Chrome. Once your headless Chrome (with remote debugging enabled) instance is running, this code just executes remote debugging commands to print the user's cookies for all websites in plaintext.
 
 You can fully control Chrome at this point, taking any action the user could take.
-
-### Metasploit module
-I'm workin' on it! Check back here when it's done.
 
 ### closing ceremony
 don't do crimes with this please

