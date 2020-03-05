@@ -5,7 +5,7 @@ future==0.16.0
 idna==2.7
 macholib==1.11
 pefile==2018.8.8
-PyInstaller==3.4
+PyInstaller>=3.6
 requests==2.19.1
 six==1.11.0
 urllib3==1.23
