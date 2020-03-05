@@ -6,7 +6,7 @@ idna==2.7
 macholib==1.11
 pefile==2018.8.8
 PyInstaller==3.4
-requests==2.19.1
+requests==2.20.0
 six==1.11.0
 urllib3==1.24.2
 websocket-client==0.53.0
