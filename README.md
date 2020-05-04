@@ -72,7 +72,7 @@ Extra crispy thanks to [@IAmMandatory](https://twitter.com/iammandatory) for sha
 
 ### Microsoft Edge
 
-Listen I know that's not Chrome, but hear me out. Because Edge is based on Chromium, the same trick works. Here's a [blog post by @wonderwuzzi23 with all the details](https://wunderwuzzi23.github.io/blog/posts/2020/cookie-crimes-on-mirosoft-edge/).
+Listen I know that's not Chrome, but hear me out. Because Edge is based on Chromium, the same trick works. Here's a [blog post by @wunderwuzzi23 with all the details](https://wunderwuzzi23.github.io/blog/posts/2020/cookie-crimes-on-mirosoft-edge/).
 
 ### Multiple Profiles
 If you want to extract the Chrome cookies for a profile other than the Default profile, just edit the `PROFILE` variable in `cookie_crimes.py`. This uses some sneaky "writing to `/tmp`" tricks to trick Chrome into reading the cookies for us.
