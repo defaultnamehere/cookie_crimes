@@ -77,6 +77,17 @@ Listen I know that's not Chrome, but hear me out. Because Edge is based on Chrom
 ### Multiple Profiles
 If you want to extract the Chrome cookies for a profile other than the Default profile, just edit the `PROFILE` variable in `cookie_crimes.py`. This uses some sneaky "writing to `/tmp`" tricks to trick Chrome into reading the cookies for us.
 
+### Load Cookies
+If you want to load the cookies after you get them, you can run the `set_cookies.py` script locally. It will open Chrome locally with the debug port open, optionally clear cookies, and load cookies from a json file. 
+Usage:
+```
+python set_cookies.py cookies.json -c
+
+python set_cookies.py google_cookies.json --clear
+
+python set_cookies.py all_cookies.json 
+```
+
 ## How it works
 
 ### Headless Chrome and `user-data-dir`
